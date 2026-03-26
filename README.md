@@ -8,14 +8,14 @@ The system does identifying:
 
 The system processes every `.pdf` file in the `../data` folder and writes one JSON file per input into `../output`.
 
-## Constraints Compliance
+# Constraints Compliance
 
 - No LLMs or generative AI are used.
 - Extraction is fully automatic and reproducible.
 - No manual post-editing is required.
 - Dependencies are declared in `pyproject.toml` and installable with `uv`.
 
-## Setup
+# Setup
 
 From the repository root:
 
@@ -24,7 +24,7 @@ cd solution
 uv sync
 ```
 
-## Run
+# Run
 
 From `solution`:
 
@@ -38,7 +38,7 @@ Optional custom paths:
 uv run extract-judges --data-dir ../data --output-dir ../output
 ```
 
-## Output Format
+# Output Format
 
 For each PDF input, one JSON file is generated:
 
@@ -50,7 +50,7 @@ For each PDF input, one JSON file is generated:
 }
 ```
 
-## Approach
+# Approach
 
 The extractor uses deterministic rule-based NLP over PDF text:
 
@@ -72,13 +72,13 @@ The extractor uses deterministic rule-based NLP over PDF text:
    - if one bench judge exists, use that as author
    - otherwise use most recent valid judicial signature mention
 
-## Assumptions
+# Assumptions
 
 - Input files are machine-readable PDFs (not scanned images).
 - Judge names appear in one of the common legal formats captured by rules.
 - `author_judge` may contain one or multiple names when evidence supports it.
 
-## Technologies Used
+# Technologies Used
 
 - Python 3.11+
 - `uv` for dependency/environment management
@@ -88,14 +88,14 @@ The extractor uses deterministic rule-based NLP over PDF text:
   - `pathlib` for file handling
   - `json` for structured output
 
-## Applicant Details
+# Applicant Details
 
-T.M.T.A.B. Tennekoon,
-Computer Engineering Undergraduate,
-Dept. Electrical & Information Engineering,
-Faculty of Engineering,
-University of Ruhuna
+### T.M.T.A.B. Tennekoon,
+### Computer Engineering Undergraduate,
+### Dept. Electrical & Information Engineering,
+### Faculty of Engineering,
+### University of Ruhuna
 
-0763253332
-mailto:thanujayaabtennekoon@gmail.com
-www.linkedin.com/in/thanujaya-tennekoon
+### 0763253332
+### thanujayaabtennekoon@gmail.com
+### www.linkedin.com/in/thanujaya-tennekoon
