@@ -1,6 +1,6 @@
 # Judge Extraction Solution
 
-This folder contains a deterministic, non-LLM extraction system as an Internship Assessment – Paralegal Pvt Ltd.
+This repository contains a deterministic, non-LLM extraction system as an Internship Assessment – Paralegal Pvt Ltd.
 The system does identifying:
 
 - `bench`: all judges listed in the bench/coram/present/before sections
@@ -8,14 +8,15 @@ The system does identifying:
 
 The system processes every `.pdf` file in the `../data` folder and writes one JSON file per input into `../output`.
 
-# Constraints Compliance
+## Constraints Compliance
 
 - No LLMs or generative AI are used.
 - Extraction is fully automatic and reproducible.
 - No manual post-editing is required.
 - Dependencies are declared in `pyproject.toml` and installable with `uv`.
 
-# Setup
+# Usage
+## Setup
 
 From the repository root:
 
@@ -24,7 +25,7 @@ cd solution
 uv sync
 ```
 
-# Run
+## Run
 
 From `solution`:
 
@@ -38,7 +39,7 @@ Optional custom paths:
 uv run extract-judges --data-dir ../data --output-dir ../output
 ```
 
-# Output Format
+## Output Format
 
 For each PDF input, one JSON file is generated:
 
@@ -72,13 +73,13 @@ The extractor uses deterministic rule-based NLP over PDF text:
    - if one bench judge exists, use that as author
    - otherwise use most recent valid judicial signature mention
 
-# Assumptions
+## Assumptions
 
 - Input files are machine-readable PDFs (not scanned images).
 - Judge names appear in one of the common legal formats captured by rules.
 - `author_judge` may contain one or multiple names when evidence supports it.
 
-# Technologies Used
+## Technologies Used
 
 - Python 3.11+
 - `uv` for dependency/environment management
@@ -96,6 +97,7 @@ The extractor uses deterministic rule-based NLP over PDF text:
 ### Faculty of Engineering,
 ### University of Ruhuna
 
+## Contact Details
 ### 0763253332
 ### thanujayaabtennekoon@gmail.com
 ### www.linkedin.com/in/thanujaya-tennekoon
