@@ -1,0 +1,21 @@
+[project]
+name = "judge-extractor"
+version = "0.1.0"
+description = "Deterministic extraction of bench and author judge from court judgment PDFs"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "pymupdf>=1.25.0",
+  "pypdf>=4.2.0",
+  "rapidocr-onnxruntime>=1.4.4",
+]
+
+[project.scripts]
+extract-judges = "judge_extractor.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/judge_extractor"]

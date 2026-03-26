@@ -1,0 +1,10 @@
+# Local notes not intended for submission
+help.md
+
+# Python virtual environments
+.venv/
+**/.venv/
+
+# Python cache/artifacts
+__pycache__/
+*.pyc
