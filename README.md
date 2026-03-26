@@ -99,7 +99,6 @@ For a detailed step-by-step technical workflow, see [Workflow.md](Workflow.md).
 ### Faculty of Engineering,
 ### University of Ruhuna
 
-## Contact Details
-### 0763253332
-### thanujayaabtennekoon@gmail.com
-### www.linkedin.com/in/thanujaya-tennekoon
+0763253332
+mailto:thanujayaabtennekoon@gmail.com
+www.linkedin.com/in/thanujaya-tennekoon
