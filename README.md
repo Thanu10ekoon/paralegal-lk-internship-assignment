@@ -1,6 +1,6 @@
 # Judge Extraction Solution
 
-This folder contains a deterministic, non-LLM extraction system as an Internship Assessment – Paralegal Pvt Ltd.
+This repository contains a deterministic, non-LLM extraction system as an Internship Assessment – Paralegal Pvt Ltd.
 The system does identifying:
 
 - `bench`: all judges listed in the bench/coram/present/before sections
@@ -15,6 +15,7 @@ The system processes every `.pdf` file in the `../data` folder and writes one JS
 - No manual post-editing is required.
 - Dependencies are declared in `pyproject.toml` and installable with `uv`.
 
+# Usage
 ## Setup
 
 From the repository root:
@@ -50,9 +51,11 @@ For each PDF input, one JSON file is generated:
 }
 ```
 
-## Approach
+# Approach
 
 The extractor uses deterministic rule-based NLP over PDF text:
+
+For a detailed step-by-step technical workflow, see [Workflow.md](Workflow.md).
 
 1. Parse PDF text with `pypdf`.
 2. Normalize lines to remove noisy whitespace and formatting artifacts.
@@ -88,14 +91,15 @@ The extractor uses deterministic rule-based NLP over PDF text:
   - `pathlib` for file handling
   - `json` for structured output
 
-## Applicant Details
+# Applicant Details
 
-T.M.T.A.B. Tennekoon,
-Computer Engineering Undergraduate,
-Dept. Electrical & Information Engineering,
-Faculty of Engineering,
-University of Ruhuna
+### T.M.T.A.B. Tennekoon,
+### Computer Engineering Undergraduate,
+### Dept. Electrical & Information Engineering,
+### Faculty of Engineering,
+### University of Ruhuna
 
-0763253332
-mailto:thanujayaabtennekoon@gmail.com
-www.linkedin.com/in/thanujaya-tennekoon
+## Contact Details
+### 0763253332
+### thanujayaabtennekoon@gmail.com
+### www.linkedin.com/in/thanujaya-tennekoon
