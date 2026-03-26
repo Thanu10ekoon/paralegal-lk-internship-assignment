@@ -44,6 +44,8 @@ The extractor therefore supports two modes:
 - standard text extraction
 - OCR fallback for scanned PDFs
 
+OCR setup and inference are guarded with safe fallbacks. If OCR dependencies are unavailable, or OCR fails at runtime, extraction continues without crashing the full batch.
+
 ## 3. OCR Fallback Converts Images To Text
 
 In `_read_pdf_text_with_ocr()`:
@@ -53,7 +55,7 @@ In `_read_pdf_text_with_ocr()`:
 - RapidOCR reads text from the image
 - OCR lines are normalized and collected
 
-This enables extraction when `extract_text()` cannot read scanned documents.
+This enables extraction when `extract_text()` cannot read scanned documents, while still keeping failure behavior explicit and predictable.
 
 ## 4. It Normalizes Text Line By Line
 
@@ -65,6 +67,8 @@ line = re.sub(r"\s+", " ", line).strip()
 ```
 
 This step is important because legal PDFs often include irregular spacing and line breaks.
+
+The line collector now runs in a single pass, so each line is normalized once (not twice).
 
 ## 5. It Cleans And Filters Candidate Names
 
@@ -120,6 +124,8 @@ Once an anchor is detected, the extractor inspects nearby lines and collects ded
 
 It also includes a fallback for compact bench lines that contain multiple judicial suffix markers.
 
+The extractor is page-aware: it stores normalized line records with page index and line index, then uses those positions to score top and bottom structural evidence more reliably.
+
 ## 9. It Finds The Author Judge
 
 `_extract_author()` uses deterministic scoring. A judge accumulates points when the line contains signals such as:
@@ -132,6 +138,8 @@ It also includes a fallback for compact bench lines that contain multiple judici
 Additional weighting is applied when end-of-judgment structure resembles a final signature block.
 
 The highest-scoring judge(s) are selected; if strong evidence is absent, conservative fallback logic is used.
+
+Compared with earlier behavior, weak-evidence fallback is intentionally stricter to reduce false positives.
 
 Because these rules are fixed, the output remains deterministic and reproducible for the same input.
 
@@ -148,8 +156,29 @@ Because these rules are fixed, the output remains deterministic and reproducible
 `process_folder()` then:
 
 - iterates over all `.pdf` files in `data/`
-- writes one `.json` file per input into `output/`
+- writes one `.json` file per input into `output/` using UTF-8 and `ensure_ascii=False`
 - returns generated output paths
+
+The CLI also supports structured logging (`--log-level`) for easier debugging and validation.
+
+## 11. Tests And Validation
+
+The project includes rule-focused regression tests for key edge cases, including:
+
+- bench extraction from `BEFORE`/`CORAM` style blocks
+- signature-style name extraction (`A. B. Silva, J.`)
+- author extraction with explicit cue lines
+- conservative behavior when author evidence is weak
+
+These tests help prevent regressions as extraction heuristics evolve.
+
+## Technologies Used
+
+- `pypdf` for primary text extraction
+- `PyMuPDF` (imported as `fitz`) for rendering pages in OCR fallback
+- `rapidocr-onnxruntime` for OCR
+- `numpy` and `onnxruntime` as OCR runtime dependencies
+- Python standard library modules (`re`, `json`, `logging`, `pathlib`, `functools`)
 
 This behavior exactly matches the assignment requirement.
 

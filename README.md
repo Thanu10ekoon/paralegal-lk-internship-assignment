@@ -33,6 +33,12 @@ From `solution`:
 uv run extract-judges
 ```
 
+Run with diagnostic logs:
+
+```bash
+uv run extract-judges --log-level INFO
+```
+
 Optional custom paths:
 
 ```bash
@@ -63,21 +69,24 @@ For a detailed step-by-step technical workflow, see [Workflow.md](Workflow.md).
    - `Justice <Name>`
    - `<Name>, J.` / `<Name>, JJ.` / `<Name>, Judge`
    - parenthesized signature forms near judgment end
-4. Build `bench` from:
+4. Use OCR fallback for image-based PDFs (PyMuPDF + RapidOCR), with safe runtime guards so OCR failures do not crash the full batch.
+5. Keep page-aware normalized line records to preserve positional context for top-of-document bench blocks and end-of-document author signals.
+6. Build `bench` from:
    - windows around `CORAM`, `PRESENT`, `BEFORE`, `BENCH`
    - supporting top-of-document judicial mention lines
-5. Infer `author_judge` via scoring heuristics:
+7. Infer `author_judge` via scoring heuristics:
    - strong cues (`delivered by`, `pronounced by`, `authored by`, `judgment by`, `per`)
    - end-of-document judicial signatures
    - judgment heading hints
    - recency in the final third of document
-6. Use deterministic fallbacks:
-   - if one bench judge exists, use that as author
-   - otherwise use most recent valid judicial signature mention
+8. Use conservative deterministic fallback logic:
+   - avoid forcing `author_judge` when evidence is weak
+   - prefer structured Chief Justice or signature evidence when available
+9. Write JSON with UTF-8 and `ensure_ascii=False` to preserve names cleanly.
 
 ## Assumptions
 
-- Input files are machine-readable PDFs (not scanned images).
+- Input files may be machine-readable or scanned; scanned files use OCR fallback.
 - Judge names appear in one of the common legal formats captured by rules.
 - `author_judge` may contain one or multiple names when evidence supports it.
 
@@ -86,10 +95,22 @@ For a detailed step-by-step technical workflow, see [Workflow.md](Workflow.md).
 - Python 3.11+
 - `uv` for dependency/environment management
 - `pypdf` for PDF text extraction
+- `PyMuPDF` (imported as `fitz`) for PDF page rendering in OCR flow
+- `rapidocr-onnxruntime` for OCR inference
+- `numpy` and `onnxruntime` for OCR tensor/runtime processing
 - Standard library modules:
+   - `logging` for extraction diagnostics
   - `re` for regex parsing
   - `pathlib` for file handling
   - `json` for structured output
+
+## Tests
+
+From `solution`:
+
+```bash
+uv run python -m unittest discover -s tests -v
+```
 
 # Applicant Details
 
